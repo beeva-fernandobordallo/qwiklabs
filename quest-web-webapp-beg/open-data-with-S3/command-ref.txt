@@ -1,0 +1,56 @@
+Self-Paced Lab: Using Open Data with Amazon S3
+spl60-opening-data-on-aws
+
+====================================
+Using this command reference. 
+====================================
+
+1. Locate the section you need. Each section in this file matches a section in the lab instructions.
+
+2. Replace items in brackets - [] - with appropriate values. For example, this text might list the following command:
+
+elastic-mapreduce --list [JobFlowID]
+
+You would replace [JobFlowID] with your own value, so that the resulting command might look similar to:
+
+elastic-mapreduce --list 1784BS92
+
+3. Do NOT enable the Word Wrap feature in Windows Notepad or the text editor you use to view this file.
+
+==================================
+Setting Bucket Permissions - Same Code Used Twice
+==================================
+
+
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "PublicReadGetObject",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "*"
+			},
+			"Action": "s3:GetObject",
+			"Resource": "arn:aws:s3:::<BUCKET-NAME>/*"
+		}
+	]
+}
+
+==================================
+Enabling Cross-Origin Resource Sharing
+==================================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<CORSConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+    <CORSRule>
+        <AllowedOrigin>*</AllowedOrigin>
+        <AllowedMethod>GET</AllowedMethod>
+        <MaxAgeSeconds>3000</MaxAgeSeconds>
+        <AllowedHeader>*</AllowedHeader>
+    </CORSRule>
+</CORSConfiguration>
+
+
+
+© 2014 Amazon Web Services, Inc. or its affiliates. All rights reserved.
