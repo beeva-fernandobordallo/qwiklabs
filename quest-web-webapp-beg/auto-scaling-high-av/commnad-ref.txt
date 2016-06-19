@@ -1,0 +1,108 @@
+Self-Paced Lab 04: Auto Scaling for Linux
+
+spl04-autoscaling-3.1.1
+
+==================================================================================================================
+
+Using this command reference. 
+
+==================================================================================================================
+
+1. Locate the section you need. Each section in this file matches a section in the lab instructions.
+
+2. Replace items in brackets - < > - with appropriate values. For example, this text might list the following command:
+
+elastic-mapreduce --list <JobFlowID>
+
+You would replace <JobFlowID> with your own value, so that the resulting command might look similar to:
+
+elastic-mapreduce --list 1784BS92
+
+3. Do NOT enable the Word Wrap feature in Windows Notepad or the text editor you use to view this file.
+
+
+
+++++ Create a New Amazon EC2 Server Instance ++++
+
+
+==================================================================================================================
+
+Connect to the Amazon EC2 Instance using the OpenSSH CLI client (MAC & LINUX ONLY)
+
+==================================================================================================================
+Replace <qwiklab-l33-5018.pem> with your PEM filename.
+Replace <public DNS> with the Public DNS of your instance.
+
+
+chmod 600 ~/<Downloads/qwiklab-l33-5018.pem>
+ssh -i ~/<Downloads/qwiklab-l33-5018.pem> ec2-user@<public DNS>
+
+
+
+==================================================================================================================
+
+Gather Lab Details
+
+==================================================================================================================
+
+
+cat .bash_profile
+source .bash_profile
+cat ~/lab-details.txt
+
+
+
+==================================================================================================================
+
+Create a Launch Configuration
+
+==================================================================================================================
+
+as-create-launch-config --image-id <PasteYourAMIIdHere> --instance-type t1.micro --key <PasteYourKeyNameHere> --group <PasteYourSecurityGroupHere> --user-data-file as-bootstrap.sh --launch-config lab-lc
+
+
+
+==================================================================================================================
+Create an Auto Scaling Group
+==================================================================================================================
+
+as-create-auto-scaling-group lab-as-group --availability-zones <PasteYourAvailabilityZoneHere> --launch-configuration lab-lc --load-balancers <PasteYourElasticLoadBalancerHere> --max-size 5 --min-size 1
+
+ec2-metadata -z
+
+
+
+
+==================================================================================================================
+Tagging Auto Scaling Resources
+==================================================================================================================
+
+as-create-or-update-tags --tag "id=lab-as-group, t=auto-scaling-group, k=Name, v=AS-Web-Server, p=true"
+
+
+
+==================================================================================================================
+Create Auto Scaling Notifications
+==================================================================================================================
+
+as-put-notification-configuration lab-as-group --topic-arn <PasteTheTopicARNHere> --notification-types autoscaling:EC2_INSTANCE_LAUNCH, autoscaling:EC2_INSTANCE_TERMINATE
+
+
+
+==================================================================================================================
+Create Auto Scaling Policies
+==================================================================================================================
+
+as-put-scaling-policy lab-scale-up-policy --auto-scaling-group lab-as-group --adjustment=1 --type ChangeInCapacity --cooldown 300
+
+
+as-put-scaling-policy lab-scale-down-policy --auto-scaling-group lab-as-group "--adjustment=-1" --type ChangeInCapacity --cooldown 300
+
+
+==================================================================================================================
+Wrapping Up
+==================================================================================================================
+
+as-describe-scaling-activities --show-long
+
+ï¿½ 2014 Amazon Web Services, Inc. or its affiliates. All rights reserved.

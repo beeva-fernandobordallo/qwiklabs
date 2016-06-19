@@ -1,0 +1,36 @@
+Self-Paced Lab -- Working with Elastic Load Balancing
+spl03-working-elb
+
+==========
+
+Using this command reference. 
+
+==========
+
+1. Locate the section you need. Each section in this file matches a section in the lab instructions.
+
+2. Replace items in brackets - [] - with appropriate values. For example, this text might list the following command:
+
+elastic-mapreduce --list [JobFlowID]
+
+You would replace [JobFlowID] with your own value, so that the resulting command might look similar to:
+
+elastic-mapreduce --list 1784BS92
+
+3. Do NOT enable the Word Wrap feature in Windows Notepad or the text editor you use to view this file.
+
+
+==========
+
+Application Machine Images (AMIs) and Instances
+
+==========
+
+
+#!/bin/sh
+curl -L https://us-west-2-aws-training.s3.amazonaws.com/awsu-spl/spl03-working-elb/static/bootstrap-elb.sh | sh
+
+
+
+
+(c) 2014-2016 Amazon Web Services, Inc. or its affiliates. All rights reserved.
